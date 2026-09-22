@@ -1,0 +1,4 @@
+requests
+litellm
+chromadb
+sentence-transformers

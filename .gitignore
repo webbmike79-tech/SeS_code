@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+ENV/
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Project databases and local memory stores
+*.db
+*.sqlite
+*.sqlite3
+ai_memory_db/
+
+# Environment and secrets
+.env
+.env.*
+*.key
+service-account*.json
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

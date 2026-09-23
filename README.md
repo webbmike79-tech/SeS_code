@@ -70,8 +70,11 @@ The demo queues two sample tasks, then lets the background worker process them.
   (statuses: `pending`, `processing`, `completed`, `failed`); `add_task()` stores a
   task with a JSON payload.
 - **worker.py** — `start_background_processor()` spawns a daemon thread running
-  `queue_worker_loop()`; `process_queue()` locks each pending task, runs your cloud
-  logic, and marks it `completed` or `failed`.
+  `queue_worker_loop()`; `process_queue()` locks each pending task, executes it
+  via `execute_task()`, and marks it `completed` (with the result stored) or
+  re-queues it for retry. Tasks get 3 attempts before being marked `failed`.
+  `cloud_llm_request` tasks are executed for real through `hybrid_generate()`.
+  All output goes through the `logging` module.
 - **memory_bank.py** — `learn_information()` saves facts/articles to the persistent
   collection; `recall_relevant_context()` retrieves the most relevant memories to
   inject into an LLM prompt.

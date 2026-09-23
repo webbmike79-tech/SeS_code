@@ -1,9 +1,16 @@
+import logging
 import time
 from queue_manager import setup_database, add_task
 from worker import start_background_processor
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(name)s] %(levelname)s: %(message)s",
+)
+logger = logging.getLogger("main")
+
 if __name__ == "__main__":
-    print("=== Starting Hybrid AI Offline/Online System ===\n")
+    logger.info("=== Starting Hybrid AI Offline/Online System ===")
 
     # 1. Initialize the SQLite Database
     setup_database()
@@ -13,13 +20,13 @@ if __name__ == "__main__":
     start_background_processor(interval_seconds=5)
 
     # 3. Simulate application usage
-    print("\n[Main App] Simulating user adding tasks while 'offline'...")
+    logger.info("Simulating user adding tasks while 'offline'...")
     add_task("cloud_llm_request", {"prompt": "Analyze the latest tech market trends", "model": "gpt-4o"})
     time.sleep(1)
-    add_task("email_alert", {"to": "mike.webb@example.com", "subject": "Daily Status Update"})
+    add_task("email_alert", {"to": "user@example.com", "subject": "Daily Status Update"})
 
-    print("\n[Main App] The main application thread is now free to handle other UI/Logic.")
-    print("[Main App] Waiting to let the background worker process the database queue...\n")
+    logger.info("The main application thread is now free to handle other UI/Logic.")
+    logger.info("Waiting to let the background worker process the database queue...")
 
     try:
         # Keep the main application alive so the background thread can run.
@@ -27,7 +34,7 @@ if __name__ == "__main__":
         for i in range(15):
             time.sleep(1)
 
-        print("\n[Main App] Demo complete. Shutting down gracefully.")
+        logger.info("Demo complete. Shutting down gracefully.")
 
     except KeyboardInterrupt:
-        print("\n[Main App] Force shut down via keyboard interrupt.")
+        logger.info("Force shut down via keyboard interrupt.")

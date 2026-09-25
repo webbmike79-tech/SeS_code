@@ -13,11 +13,11 @@ MAX_ATTEMPTS = 3
 
 
 def check_internet():
-    """Checks for an active internet connection by pinging Google's DNS."""
+    """Checks for an active internet connection via a lightweight endpoint."""
     try:
-        requests.get("https://8.8.8.8", timeout=2)
+        requests.get("https://www.google.com/generate_204", timeout=5)
         return True
-    except requests.ConnectionError:
+    except requests.RequestException:
         return False
 
 
